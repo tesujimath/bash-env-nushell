@@ -16,11 +16,14 @@ export def main [
     []
   }
 
-  let raw = ($in | str join "\n") | bash-env-json ...($fn_args ++ $path_args) | from json
+  let raw = ($in | str join "\n") | bash-env-json ...($fn_args ++ $path_args) | complete
+  let raw_json = $raw.stdout | from json
 
-  let error = $raw | get -i error
+  let error = $raw_json | get -i error
   if $error != null {
     error make { msg: $error }
+  } else if $raw.exit_code != 0 {
+    error make { msg: $"unexpected failure from bash-env-json ($raw.stderr)" }
   }
 
   if ($export | is-not-empty) {
