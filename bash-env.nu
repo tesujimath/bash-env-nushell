@@ -28,11 +28,11 @@ export def main [
 
   if ($export | is-not-empty) {
     print "warning: --export is deprecated, use --shellvars(-s) instead"
-    let exported_shellvars = ($raw.shellvars | select -i ...$export)
-    $raw.env | merge ($exported_shellvars)
+    let exported_shellvars = ($raw_json.shellvars | select -i ...$export)
+    $raw_json.env | merge ($exported_shellvars)
   } else if $shellvars or ($fn | is-not-empty) {
-    $raw
+    $raw_json
   } else {
-    $raw.env
+    $raw_json.env
   }
 }
