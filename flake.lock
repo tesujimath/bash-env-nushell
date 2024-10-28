@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1729393456,
-        "narHash": "sha256-EpGpe7P4DLETvKKgaZxDDaMptJnQMuMw9MSbegkIsI0=",
+        "lastModified": 1730091345,
+        "narHash": "sha256-kerVDH54dRGgrY83nQ8qJzDX3Od/ybw7Jhzp/Nb0cnk=",
         "owner": "tesujimath",
         "repo": "bash-env-json",
-        "rev": "5d7ec7e2e184e3f3f763050a40b862fd2599cef8",
+        "rev": "ba87ef4d764e48bafbd67d0cf770e8c7175c77c6",
         "type": "github"
       },
       "original": {

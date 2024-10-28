@@ -16,20 +16,23 @@ export def main [
     []
   }
 
-  let raw = ($in | str join "\n") | bash-env-json ...($fn_args ++ $path_args) | from json
+  let raw = ($in | str join "\n") | bash-env-json ...($fn_args ++ $path_args) | complete
+  let raw_json = $raw.stdout | from json
 
-  let error = $raw | get -i error
+  let error = $raw_json | get -i error
   if $error != null {
     error make { msg: $error }
+  } else if $raw.exit_code != 0 {
+    error make { msg: $"unexpected failure from bash-env-json ($raw.stderr)" }
   }
 
   if ($export | is-not-empty) {
     print "warning: --export is deprecated, use --shellvars(-s) instead"
-    let exported_shellvars = ($raw.shellvars | select -i ...$export)
-    $raw.env | merge ($exported_shellvars)
+    let exported_shellvars = ($raw_json.shellvars | select -i ...$export)
+    $raw_json.env | merge ($exported_shellvars)
   } else if $shellvars or ($fn | is-not-empty) {
-    $raw
+    $raw_json
   } else {
-    $raw.env
+    $raw_json.env
   }
 }
