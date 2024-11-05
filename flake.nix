@@ -34,7 +34,6 @@
             {
               name = "bash-env.nu-with-bash-env-json";
               src = ./bash-env.nu;
-              doCheck = true;
               dontUnpack = true;
               preferLocalBuild = true;
               allowSubstitutes = false;
