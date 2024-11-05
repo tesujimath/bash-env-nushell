@@ -24,8 +24,7 @@
             inherit system overlays;
           };
 
-          inherit (builtins) readFile;
-          inherit (pkgs) rust-bin stdenvNoCC writeShellScriptBin;
+          inherit (pkgs) lib rust-bin stdenvNoCC writeShellScriptBin;
           flakePkgs = {
             bash-env-json = bash-env-json.packages.${system}.default;
           };
