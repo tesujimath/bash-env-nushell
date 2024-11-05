@@ -24,26 +24,25 @@
             inherit system overlays;
           };
 
-          inherit (builtins) readFile;
-          inherit (pkgs) rust-bin symlinkJoin writeShellScriptBin writeTextFile;
+          inherit (pkgs) lib rust-bin stdenvNoCC writeShellScriptBin;
           flakePkgs = {
             bash-env-json = bash-env-json.packages.${system}.default;
           };
 
-          bash-env-module = writeTextFile
-            {
-              name = "bash-env.nu";
-              text = readFile ./bash-env.nu;
-              destination = "/bash-env.nu";
-            };
-
-          bash-env-module-with-bash-env-json = symlinkJoin
+          bash-env-module-with-bash-env-json = stdenvNoCC.mkDerivation
             {
               name = "bash-env.nu-with-bash-env-json";
-              paths = [
-                bash-env-module
-                flakePkgs.bash-env-json
-              ];
+              src = ./bash-env.nu;
+              dontUnpack = true;
+              preferLocalBuild = true;
+              allowSubstitutes = false;
+
+              buildPhase = ''
+                runHook preBuild
+                mkdir -p "$out"
+                substitute "$src" "$out/bash-env.nu" --replace-fail ${lib.escapeShellArg "bash-env-json"} ${lib.escapeShellArg "${flakePkgs.bash-env-json}/bin/bash-env-json"}
+                runHook postBuild
+              '';
             };
 
           # cargo-nightly based on https://github.com/oxalica/rust-overlay/issues/82
