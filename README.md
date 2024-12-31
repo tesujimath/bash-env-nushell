@@ -2,7 +2,7 @@
 
 Historically Bash environment for Nushell was provided via the `nu_plugin_bash_env` plugin in this repo.
 
-That plugin is now deprecated in favour of the `bash-env` module, which is more feature rich and also embarrassingly simpler than the plugin.
+That plugin has now been removed in favour of the `bash-env` module, which is more feature rich and also embarrassingly simpler than the plugin.
 
 ## bash-env module
 
@@ -169,17 +169,9 @@ use /path/to/bash-env.nu
 
 In contrast to the plugin, the module requires [`bash-env-json`](https://github.com/tesujimath/bash-env-json) to be separately downloaded and installed as an executable on the `$PATH`.
 
-## nu_plugin_bash_env (deprecated)
+## nu_plugin_bash_env (historical interest only)
 
-The plugin is unlikely to be maintained beyond the next plugin protocol change in Nushell.  It is recommended to switch to the `bash-env` module instead.
-
-For instructions on how to use this plugin, see the [Nushell book](https://www.nushell.sh/book/plugins.html).
-
-In summary, build the crate and add the resulting `nu_plugin_bash_env` executable as a plugin using `plugin add`, then `plugin use`.
-
-For users of Nix, this is now installable as a flake (see below).
-
-The plugin reads the specified environment file (if any) and evaluates variables from `stdin` (if any) and returns any new or changed environment variables as a record, suitable for passing to Nu's `load-env`.
+The plugin has been removed.  It is recommended to switch to the `bash-env` module instead.
 
 ### Plugin Version Compatability
 
@@ -204,7 +196,7 @@ The following versions are compatible.
 |    0.99 |          0.16.1 |
 |   0.100 |          0.17.3 |
 
-If you find a new version of Nushell rejects this plugin as incompatible, please report an [issue](https://github.com/tesujimath/nu_plugin_bash_env/issues).
+Note that the plugin will not work in later versions of Nushell, and will not be updated to fix that.  Use the module instead (above).
 
 ### Dependencies
 
