@@ -16,7 +16,8 @@ export def main [
     []
   }
 
-  let raw = ($in | str join "\n") | bash-env-json ...($fn_args ++ $path_args) | complete
+  let input_str = $in | default "" | str join "\n"
+  let raw = $input_str | bash-env-json ...($fn_args ++ $path_args) | complete
   let raw_json = $raw.stdout | from json
 
   let error = $raw_json | get -i error
