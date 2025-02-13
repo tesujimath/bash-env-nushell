@@ -12,14 +12,14 @@ def test_shell_variables [] {
 
 #[test]
 def test_shell_variables_from_file [] {
-  let actual = bash-env -s tests/shell-variables.env
+  let actual = bash-env -s tests/shell-variables.env | reject meta
   let expected = { shellvars: { A: "not exported" } env: { B: "exported" } }
   assert equal $actual $expected
 }
 
 #[test]
 def test_shell_functions [] {
-  let actual = bash-env -f [f2 f3] tests/shell-functions.env
+  let actual = bash-env -f [f2 f3] tests/shell-functions.env | reject meta
   let expected = {
     "env": {
       "B": "1",
