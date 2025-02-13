@@ -47,13 +47,15 @@
               inherit (pkgs)
                 mkShell
                 bashInteractive
-                jq;
+                jq
+                nushell;
             in
 
             mkShell {
               nativeBuildInputs = [
                 bashInteractive
                 jq
+                nushell
               ];
             };
 
