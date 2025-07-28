@@ -7,7 +7,7 @@ on:
     branches:
       - main
 env:
-  NU_VERSION: 0.102.0
+  NU_VERSION: 0.106.0
   BASH_ENV_JSON_VERSION: 0.10.1
 
 jobs:
