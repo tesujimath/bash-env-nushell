@@ -51,6 +51,19 @@ b
 
 Rather than folding shell variables in with the environment variables as was done by the plugin, the `-s` or `--shellvars` option results in structured output with separate `env` and `shellvars`.
 
+The `--export` option is deprecated. It returns a flat record containing environment changes merged with selected shell variables. To retrieve selected shell variables with `--shellvars`, select them from the nested `shellvars` record:
+
+```nu
+(bash-env ./environment.sh --shellvars).shellvars | select A
+```
+
+If you also need the environment changes returned by `--export [A]`, merge the records:
+
+```nu
+let changes = bash-env ./environment.sh --shellvars
+$changes.env | merge ($changes.shellvars | select --optional A)
+```
+
 ```
 > echo "ABC=123" | bash-env
 ╭──────────────╮
