@@ -7,8 +7,8 @@ on:
     branches:
       - main
 env:
-  NU_VERSION: 0.106.0
-  BASH_ENV_JSON_VERSION: 0.10.1
+  NU_VERSION: 0.116.1
+  BASH_ENV_JSON_VERSION: 0.11.0
 
 jobs:
   test:
@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Download Nushell $NU_VERSION
         run: |
-          curl -L https://github.com/nushell/nushell/releases/download/${NU_VERSION}/nu-${NU_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar xzf -
+          curl -L "https://github.com/nushell/nushell/releases/download/${NU_VERSION}/nu-${NU_VERSION}-x86_64-unknown-linux-gnu.tar.gz" | tar xzf -
       - name: Version Check
         run: |
           export PATH=./nu-${NU_VERSION}-x86_64-unknown-linux-gnu:$PATH
@@ -28,11 +28,12 @@ jobs:
           jq --version
       - name: Download bash-env-json $BASH_ENV_JSON_VERSION
         run: |
-          curl -L https://github.com/tesujimath/bash-env-json/archive/refs/tags/${BASH_ENV_JSON_VERSION}.tar.gz | tar xzf -
+          curl -L "https://github.com/tesujimath/bash-env-json/archive/refs/tags/${BASH_ENV_JSON_VERSION}.tar.gz" | tar xzf -
       - name: Run Module Tests
         run: |
           # note that Nushell doesn't like relative paths on the $PATH
-          export PATH=$(pwd)/bash-env-json-${BASH_ENV_JSON_VERSION}:./nu-${NU_VERSION}-x86_64-unknown-linux-gnu:$PATH
+          PATH="$(pwd)/bash-env-json-${BASH_ENV_JSON_VERSION}:./nu-${NU_VERSION}-x86_64-unknown-linux-gnu:$PATH"
+          export PATH
           which bash-env-json
           nu --no-config-file --no-history -c "use bash-env.nu ; use tests.nu run_bash_env_tests ; run_bash_env_tests"
           nu --no-config-file --no-history -c "use bash-env.nu ; use extra-module-tests.nu ; extra-module-tests"

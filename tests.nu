@@ -1,4 +1,4 @@
-use std assert
+use std/assert
 
 # TODO use testing.nu testing module,
 # which wasn't working at the time I wrote these tests
